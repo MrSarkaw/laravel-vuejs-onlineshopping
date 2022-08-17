@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
@@ -18,9 +20,9 @@ Route::middleware(['auth:api'])->group(function () {
 
      Route::middleware(['isAdmin'])->group(function(){
         Route::resource('admin/user', UserController::class)->except(['show', 'create']);
-        // Route::resource('admin/category', CategoryController::class)->except(['show']);
+        Route::resource('admin/category', CategoryController::class)->except(['show', 'create']);
         // Route::resource('admin/post', PostController::class)->except(['show']);
-        // Route::resource('admin/transaction', TransactionController::class)->except(['create', 'edit', 'store', 'show']);
+        Route::resource('admin/transaction', TransactionController::class)->except(['create', 'edit', 'store', 'show']);
     });
 
 });

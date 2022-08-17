@@ -13,6 +13,12 @@ class TransactionController extends Controller
     {
 
         $transactions = Transaction::with('user')->latest()->paginate(20);
+
+       if(request()->wantsJson()){
+            return response()->json([
+                'data'=>$transactions
+            ]);
+        }
         return view('admin.transaction.index', compact('transactions'));
 
     }
@@ -25,6 +31,12 @@ class TransactionController extends Controller
             'state' => !$transaction->state
         ]);
 
+        if(request()->wantsJson()){
+            return response()->json([
+                'msg'=>'بەسەرکەوتوی تازەکرایەوە'
+            ]);
+        }
+
         return redirect()->back();
     }
 
@@ -33,6 +45,11 @@ class TransactionController extends Controller
     {
         Transaction::findOrFail($id)->delete();
 
+        if(request()->wantsJson()){
+            return response()->json([
+                'msg'=>'بەسەرکەوتوی سڕایەوە'
+            ]);
+        }
         return redirect()->back();
     }
 }
