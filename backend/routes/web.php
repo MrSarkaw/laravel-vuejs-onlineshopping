@@ -14,6 +14,7 @@ Route::get('/', [PublicController::class, 'index'])->name('index');
 
 Route::middleware(['auth'])->group(function(){
     Route::post('/addto-favcart/{id}/{cart}', [PublicController::class, 'addToFavCart'])->name('addToFavCart');
+
     Route::middleware(['isAdmin'])->group(function(){
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('admin/user', UserController::class)->except(['show']);

@@ -13,6 +13,12 @@ class UserController extends Controller
     public function index()
     {
         $data = User::paginate(10);
+
+        if(request()->wantsJson()){
+            return response()->json([
+                'data' => $data
+            ]);
+        }
         return view('admin.user.index',compact('data'));
     }
 
@@ -25,8 +31,12 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
-
         User::create($request->only('name', 'email', 'password', 'phone_number'));
+        if(request()->wantsJson()){
+            return response()->json([
+                'msg' => 'بەسەرکەوتوی دروستکرا'
+            ]);
+        }
 
         return redirect()->back()->with(['msg'=>'بەسەرکەوتوی دروستکرا']);
     }
@@ -34,6 +44,11 @@ class UserController extends Controller
     public function edit($id)
     {
         $data = User::findOrFail($id);
+        if(request()->wantsJson()){
+            return response()->json([
+                'data' => $data
+            ]);
+        }
         return view('admin.user.edit', compact('data'));
     }
 
@@ -47,6 +62,11 @@ class UserController extends Controller
         else
             $user->update($request->only('name', 'email', 'phone_number'));
 
+        if(request()->wantsJson()){
+            return response()->json([
+                'msg' => 'بەسەرکەوتوی تازەکرایەوە'
+            ]);
+        }
         return redirect()->back()->with(['msg'=>'بەسەرکەوتوی تازەکرایەوە']);
 
     }
@@ -54,6 +74,13 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::findOrFail($id)->delete();
+
+
+        if(request()->wantsJson()){
+            return response()->json([
+                'msg' => 'بەسەرکەوتوی سڕایەوە'
+            ]);
+        }
 
         return redirect()->route('user.index');
     }
