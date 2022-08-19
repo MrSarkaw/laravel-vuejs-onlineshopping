@@ -14,6 +14,14 @@ class ProfileController extends Controller
     public function index()
     {
         $posts = Transaction::where('user_id', auth()->id())->with('post')->latest()->get();
+
+
+        if(request()->wantsJson()){
+            return response()->json([
+                'data'=>$posts
+            ]);
+        }
+
         return view('public.user.index', compact('posts'));
     }
 
@@ -33,6 +41,12 @@ class ProfileController extends Controller
 
         $request->merge(['user_id' => auth()->id()]);
         Comment::create($request->only('user_id', 'post_id', 'comment'));
+
+        if(request()->wantsJson()){
+            return response()->json([
+                'msg'=>'بەسەرکەوتوی زیادکرا'
+            ]);
+        }
 
         return redirect()->back();
     }
@@ -54,6 +68,12 @@ class ProfileController extends Controller
         else
             $user->update($request->only('name', 'email', 'address', 'phone_number'));
 
+
+        if(request()->wantsJson()){
+            return response()->json([
+                'msg'=>'بەسەرکەوتوی تازەکرایەوە'
+            ]);
+        }
         return redirect()->back();
     }
 

@@ -17,6 +17,12 @@ class PostController extends Controller
     public function index()
     {
         $data = Post::withCount('categories')->latest()->paginate(10);
+
+        if(request()->wantsJson()){
+            return response()->json([
+                'data' => $data
+            ]);
+        }
         return view('admin.post.index',compact('data'));
     }
 
@@ -24,6 +30,12 @@ class PostController extends Controller
     public function create()
     {
         $category = Category::all();
+
+        if(request()->wantsJson()){
+            return response()->json([
+                'category' => $categoryPOST
+            ]);
+        }
         return view('admin.post.create', compact('category'));
     }
 
@@ -47,6 +59,12 @@ class PostController extends Controller
 
       $this->addToPostCategroy($request, $id);
 
+         if(request()->wantsJson()){
+                return response()->json([
+                    'msg'=>'بەسەرکەوتوی دروستکرا'
+                ]);
+            }
+
         return redirect()->back()->with(['msg'=>'بەسەرکەوتوی دروستکرا']);
     }
 
@@ -61,6 +79,13 @@ class PostController extends Controller
            $arrID[] = $value->category_id;
         }
 
+        if(request()->wantsJson()){
+                return response()->json([
+                    'data' => $data,
+                    'category' => $category,
+                    'arrID' => $arrID
+                ]);
+            }
 
         return view('admin.post.edit', compact('data', 'category', 'arrID'));
     }
@@ -83,6 +108,11 @@ class PostController extends Controller
         $post->update(($request->only('title', 'price','descritpion', 'color', 'size', 'image', 'discount')));
 
         $this->addToPostCategroy($request, $id);
+        if(request()->wantsJson()){
+            return response()->json([
+                'msg'=>'بەسەرکەوتوی تازەکرایەوە'
+            ]);
+        }
 
         return redirect()->back()->with(['msg'=>'بەسەرکەوتوی تازەکرایەوە']);
 
@@ -110,6 +140,11 @@ class PostController extends Controller
             unlink($path);
         }
         $post->delete();
+        if(request()->wantsJson()){
+            return response()->json([
+                'msg'=>'بەسەرکەوتوی سڕایەوە'
+            ]);
+        }
         return redirect()->route('post.index');
     }
 }

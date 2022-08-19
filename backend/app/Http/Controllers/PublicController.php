@@ -56,6 +56,14 @@ class PublicController extends Controller
 
         $check  = FavCart::where('post_id', $id)->where('user_id', auth()->id())->where('state', 1)->value('id');
 
+
+        if(request()->wantsJson()){
+            return response()->json([
+                'data'=>$data,
+                'check'=>$check
+            ]);
+        }
+
         return view('public.detail', compact('data', 'check'));
     }
 
@@ -73,6 +81,13 @@ class PublicController extends Controller
             ]);
         }
 
+        if(request()->wantsJson()){
+            return response()->json([
+                'msg'=>'بەسەرکەوتوی زیادکرا'
+            ]);
+        }
+
+
         return redirect()->back();
 
     }
@@ -85,11 +100,24 @@ class PublicController extends Controller
             'post_id' => $id
         ]);
 
+        if(request()->wantsJson()){
+            return response()->json([
+                'msg'=>'بەسەرکەوتووی کڕدرا، تکایە چاوەڕێی پەیوەندی بە'
+            ]);
+        }
+
+
         return redirect()->back()->with(['msg' => 'بەسەرکەوتووی کڕدرا، تکایە چاوەڕێی پەیوەندی بە']);
     }
 
     public function delete($id){
         Transaction::where('id', $id)->where('state', 0)->where('user_id', auth()->id())->delete();
+
+        if(request()->wantsJson()){
+            return response()->json([
+                'msg'=>'بەسەرکەوتووی سڕایەوە'
+            ]);
+        }
 
         return redirect()->back();
     }
