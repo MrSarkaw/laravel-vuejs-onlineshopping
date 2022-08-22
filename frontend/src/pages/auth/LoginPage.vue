@@ -18,7 +18,7 @@
 
             <button class="mt-2 rounded-full bg-green-600 text-white px-4 py-1">چوونەژوورەوە</button>
             <div class="mt-2 text-green-600 text-left">
-                <!-- <a class="border-b-2 border-green-600 pb-2" href="{{ route('register') }}">تۆماربوون</a> -->
+                <router-link class="border-b-2 border-green-600 pb-2" :to="{name:'register'}">تۆماربوون</router-link>
             </div>
         </div>
     </form>
@@ -27,11 +27,10 @@
 </template>
 
 <script>
-import Form from 'vform'
 export default {
     data(){
         return{
-           form: new Form({
+           form: new this.$Form({
                 email: '',
                 password: ''
             })
@@ -39,7 +38,7 @@ export default {
     },
     methods: {
         login(){
-           this.form.post('http://127.0.0.1:8000/api/login', this.data).then(({data})=>{
+           this.form.post('login', this.data).then(({data})=>{
                 localStorage.setItem('token', data.token)
            });
         }
