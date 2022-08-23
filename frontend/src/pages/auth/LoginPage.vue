@@ -33,13 +33,14 @@ export default {
            form: new this.$Form({
                 email: '',
                 password: ''
-            })
+            }),
         }
     },
     methods: {
         login(){
            this.form.post('login', this.data).then(({data})=>{
-                localStorage.setItem('token', data.token)
+                localStorage.setItem('token', data.token);  
+                this.$store.dispatch('user/setUser', data.user)
            });
         }
     },

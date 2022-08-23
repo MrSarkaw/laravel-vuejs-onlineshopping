@@ -67,6 +67,7 @@ export default {
         register(){
            this.form.post('register', this.data).then(({data})=>{
                 localStorage.setItem('token', data.token);
+                this.$store.dispatch('user/setUser', data.user)
                 this.form.reset();
            });
         }
