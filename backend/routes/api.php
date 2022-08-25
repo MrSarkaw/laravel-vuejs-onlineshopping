@@ -20,6 +20,7 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 Route::middleware(['auth:api'])->group(function () {
      Route::post('/logout', [LogoutController::class, 'logout']);
+     Route::get('/getuser', [LogoutController::class, 'getUser']);
 
      //users
      Route::post('/addto-favcart/{id}/{cart}', [PublicController::class, 'addToFavCart']);

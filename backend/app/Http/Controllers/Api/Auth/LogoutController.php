@@ -15,4 +15,11 @@ class LogoutController extends Controller
             'msg' => 'successfully logout'
         ]);
     }
+
+    public function getUser(){
+        return response()->json([
+            'user' => Auth::user()
+        ]);
+    }
+
 }
