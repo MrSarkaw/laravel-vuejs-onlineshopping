@@ -12,7 +12,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $data = User::paginate(10);
+        $data = User::latest()->paginate(10);
 
         if(request()->wantsJson()){
             return response()->json([
