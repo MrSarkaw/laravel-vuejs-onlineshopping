@@ -29,7 +29,7 @@ class UserRequest extends FormRequest
                 'name' => 'required',
                 'email' => 'required|unique:users,email,'.$request->user.'|email',
                 'password' => 'nullable|min:6|confirmed',
-                'phone_number'=>"required|unique:users,phone_number,'.$request->user.'"
+                'phone_number'=>"required|unique:users,phone_number,".$request->user.""
             ];
         }else{
             return [
