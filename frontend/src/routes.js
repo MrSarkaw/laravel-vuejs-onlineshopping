@@ -20,8 +20,9 @@ const routes = [
     ]},
 
     {path:'/admin', component:AdminLayout, children:[
-        {path:'/user', component:IndexUser, name:'user.index'},
-        {path:'/user/create', component:CreateUser, name:'user.create'},
+        {path:'user', component:IndexUser, name:'user.index'},
+        {path:'user/create', component:CreateUser, name:'user.create'},
+        {path:'user/:id/edit', component:CreateUser, name:'user.edit'},
     ], beforeEnter: (to, from, next) => {
         if(localStorage.getItem('token')){
             next();

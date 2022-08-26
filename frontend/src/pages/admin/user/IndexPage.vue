@@ -37,14 +37,15 @@
                         {{item.address}}
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        <!-- <a href="{{ route('user.edit', ['user'=>$row->id]) }}">
+                        <router-link :to="{name:'user.edit', params:{id:item.id}}">
                             <i class="fas fa-pen"></i>
-                        </a> -->
+                        </router-link>
                     </th>
                 </tr>
         </tbody>
       </table>
     </div>
+    <button v-if="!compelet" @click="loadData()" class="bg-blue-500 text-white px-2  py-1 rounded">Load Data <i class="fas fa-arrow-down"></i></button>
   </div>
 </template>
 
@@ -52,15 +53,29 @@
 export default {
     data(){
         return{
-            data:[]
+            data:[],
+            page:0,
+            compelet:false
         }
     },
+    methods: {
+      loadData(){
+        if(!this.compelet){
+          this.page++;
+          this.$axios.get('/admin/user?page='+this.page).then(({data})=>{
+              if(data.data.data.length > 0){
+                this.data = this.data.concat(data.data.data)
+              }else{
+                this.compelet = true
+              }
+          }).catch(()=>{
+              alert('error')
+          })
+        }
+      }
+    },
     created() {
-        this.$axios.get('/admin/user').then(({data})=>{
-            this.data = data.data.data
-        }).catch(()=>{
-            alert('error')
-        })
+        this.loadData();
     },
 }
 </script>
