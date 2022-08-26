@@ -40,7 +40,9 @@ export default {
         login(){
            this.form.post('login', this.data).then(({data})=>{
                 localStorage.setItem('token', data.token);  
-                this.$store.dispatch('user/setUser', data.user)
+                this.$store.dispatch('user/setUser', data.user);
+                this.$axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('token')
+                this.$router.push('/admin');
            });
         }
     },
