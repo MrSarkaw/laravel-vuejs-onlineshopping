@@ -10,14 +10,19 @@
                 <router-link :to="{name:'user.index'}">بەکارهێنەر</router-link>
             </div>
 
-          <div class="mt-4 px-3 p-2 text-center">
+            <div class="mt-4 px-3 p-2 text-center">
                 <router-link :to="{name:'category.index'}">بەشەکان</router-link>
             </div>
-             <div class="mt-4 px-3 p-2 ">
-                <router-link :to="{name:'product.index'}">کاڵاکان</router-link>
+
+            <div class="mt-4 px-3 p-2 text-center">
+                <router-link :to="{name:'posts.index'}">کاڵاکان</router-link>
+            </div>
+             <!--  
+            <div class="mt-4 px-3 p-2  {{in_array(Route::currentRouteName(), ['post.index', 'post.create', 'post.edit'])?'bg-gray-100 text-green-600':''}} text-center">
+                <a href="{{route('post.index')}}">کاڵاکان</a>
             </div>
 
-            <!-- <div class="mt-4 px-3 p-2  {{in_array(Route::currentRouteName(), ['transaction.index'])?'bg-gray-100 text-green-600':''}} text-center">
+           <div class="mt-4 px-3 p-2  {{in_array(Route::currentRouteName(), ['transaction.index'])?'bg-gray-100 text-green-600':''}} text-center">
                 <a href="{{route('transaction.index')}}">فرۆشراوەکان</a>
             </div> -->
             <form @submit.prevent="logout()" class="absolute bottom-5  w-full text-center"  >

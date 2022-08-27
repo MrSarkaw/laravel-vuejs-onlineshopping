@@ -19,4 +19,5 @@ app.config.globalProperties.$axios = {...axios}
 app.config.globalProperties.$Form = Form
 app.config.globalProperties.$Swal = Swal
 
+
 app.mount('#app')

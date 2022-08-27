@@ -15,6 +15,9 @@ import CreateUser from '@/pages/admin/user/CreatePage.vue'
 //category
 import CategoryIndex from '@/pages/admin/category/IndexPage.vue'
 import  CategoryCreate from '@/pages/admin/category/CreatePage.vue'
+//posts
+import PostIndex from '@/pages/admin/posts/IndexPage.vue'
+import  PostCreate from '@/pages/admin/posts/CreatePage.vue'
 
 const routes = [
     {path:'/', component:PublicLayout, children:[
@@ -31,6 +34,10 @@ const routes = [
         {path:'category', component:CategoryIndex, name:'category.index'},
         {path:'category/create', component:CategoryCreate, name:'category.create'},
         {path:'category/:id/edit', component:CategoryCreate, name:'category.edit'},
+        //posts
+        {path:'posts', component:PostIndex, name:'posts.index'},
+        {path:'posts/create', component:PostCreate, name:'posts.create'},
+        {path:'posts/:id/edit', component:PostCreate, name:'posts.edit'},
     ], beforeEnter: (to, from, next) => {
         if(localStorage.getItem('token')){
             next();
