@@ -33,7 +33,7 @@ class PostController extends Controller
 
         if(request()->wantsJson()){
             return response()->json([
-                'category' => $categoryPOST
+                'category' => $category
             ]);
         }
         return view('admin.post.create', compact('category'));

@@ -50,6 +50,13 @@
 
                 </div>
 
+
+                <div>
+                    <p>بەشەکان</p>
+                    <select multiple v-model="form.category" class="bg-gray-300 px-3 py-1 w-10/12 focus:outline-none rounded">
+                         <option v-for="(row, index) in category" :key="index" :value="row.id">{{row.name}}</option>
+                    </select>
+                </div>
                 
                  
 
@@ -76,6 +83,7 @@ export default {
   data() {
     return {
       isUpdate:0,
+      category:[],
       form : new this.$Form({
         title:'',
         price:'',
@@ -83,6 +91,7 @@ export default {
         size:'',
         descritpion:'',
         file:'',
+        category:[]
       })
     };
   },
@@ -133,10 +142,15 @@ export default {
       this.isUpdate = true;
       this.$axios.get(`admin/post/${id}/edit`).then(({ data })=>{
         this.form.fill(data.data)
+        this.form.category = data.arrID
       }).catch(()=>{
         this.$router.push('/admin/posts')
       })
     }
+
+    this.$axios.get('/admin/post/create').then(({data})=>{
+      this.category = data.category
+    })
   },
 };
 </script>
