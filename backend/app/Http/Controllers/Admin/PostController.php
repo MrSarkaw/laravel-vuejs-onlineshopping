@@ -119,7 +119,7 @@ class PostController extends Controller
     }
 
     public function addToPostCategroy($request, $id){
-        if(count($request->category) > 0){
+        if($request->category && count($request->category) > 0){
             foreach ($request->category as  $value) {
                 if(Category::find($value)){
                     PostCategory::create([
