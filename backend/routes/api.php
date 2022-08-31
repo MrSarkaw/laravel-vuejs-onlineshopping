@@ -38,3 +38,5 @@ Route::middleware(['auth:api'])->group(function () {
     });
 
 });
+
+Route::get('/getpost', [PublicController::class, 'index'])->name('index');

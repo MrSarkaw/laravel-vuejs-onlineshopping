@@ -3,7 +3,8 @@
     <form @submit.prevent="login()" method="POST">
         <div class="w-6/12 mx-auto mt-10 shadow bg-white p-6 space-y-4 rounded-lg">
             <i class="fa-solid fa-shirt h-16  w-16 text-3xl mx-auto rounded-full bg-green-600 text-white flex items-center justify-center"></i>
-
+            
+            <p class="text-red-500 text-center" v-if="errorMsg != null">{{ errorMsg }}</p>
             <div class="bg-gray-300 p-2 rounded-xl px-3">
                 <p class="text-xs text-gray-600">ئیمەل</p>
                 <input v-model="form.email" type="text" placeholder="example@gmail.com" name="email" class="bg-transparent focus:outline-none w-full">
@@ -30,6 +31,7 @@
 export default {
     data(){
         return{
+           errorMsg:'',
            form: new this.$Form({
                 email: '',
                 password: ''
@@ -43,6 +45,9 @@ export default {
                 this.$store.dispatch('user/setUser', data.user);
                 this.$axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('token')
                 this.$router.push('/admin');
+           }).catch((error)=>{
+            console.log(error)
+                this.errorMsg = error?.response?.data?.msg || null;
            });
         }
     },

@@ -13,7 +13,6 @@ class PublicController extends Controller
     public function index(Request $request){
 
         $posts = Post::query();
-
         if($request->q)
          $posts->where('title', 'like', '%'.$request->q.'%');
 
@@ -44,6 +43,12 @@ class PublicController extends Controller
         }
 
 
+        if(request()->wantsJson()){
+            return response()->json([
+                'posts' => $posts->get(),
+                'fivId' => $favId,
+            ]);
+        }
         return view('public.index', compact('posts', 'favId'));
     }
 

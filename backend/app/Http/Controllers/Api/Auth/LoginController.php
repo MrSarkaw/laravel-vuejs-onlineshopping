@@ -15,7 +15,7 @@ class LoginController extends Controller
         ]);
 
         if(!Auth::attempt($user)){
-            return response()->json(['msg' =>  'زانیاریەکانت هەڵەیە']);
+            return response()->json(['msg' =>  'زانیاریەکانت هەڵەیە'], 422);
         }
 
         $token = Auth::user()->createToken('onlineshopping_2022_16_8')->accessToken;

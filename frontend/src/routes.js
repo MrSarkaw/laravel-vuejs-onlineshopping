@@ -5,7 +5,8 @@ import PublicLayout from '@/layouts/PublicLayout.vue'
 //auth
 import LoginPage from '@/pages/auth/LoginPage.vue'
 import RegisterPage from '@/pages/auth/RegisterPage.vue'
-
+//public route
+import IndexPage from '@/pages/public/IndexPage.vue'
 
 //admin
 import AdminLayout from '@/layouts/AdminLayout.vue'
@@ -23,6 +24,7 @@ const routes = [
     {path:'/', component:PublicLayout, children:[
         {path:'login', component:LoginPage, name:'login'},
         {path:'register', component:RegisterPage, name:'register'},
+        {path:'', component:IndexPage, name:'index'}
     ]},
 
     {path:'/admin', component:AdminLayout, children:[
