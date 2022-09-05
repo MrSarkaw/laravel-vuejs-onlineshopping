@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\FavCart;
 use App\Models\Post;
 use App\Models\Transaction;
@@ -130,5 +131,11 @@ class PublicController extends Controller
 
     public function map(){
         return view('public.map');
+    }
+
+    public function category(){
+        return response()->json([
+            'category' => Category::all()
+        ]);
     }
 }

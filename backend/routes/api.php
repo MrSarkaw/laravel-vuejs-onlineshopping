@@ -39,4 +39,5 @@ Route::middleware(['auth:api'])->group(function () {
 
 });
 
-Route::get('/getpost', [PublicController::class, 'index'])->name('index');
+Route::post('/getpost', [PublicController::class, 'index'])->name('index');
+Route::get('/category', [PublicController::class, 'category']);
