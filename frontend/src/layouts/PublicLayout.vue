@@ -86,29 +86,23 @@
             <div class="border-b">
                 <p class="my-1  p-2 px-5">فلتەر</p>
             </div>
-            <!-- <form id="form" action="{{ route('index') }}" class="px-5 text-gray-500 mb-2 text-sm space-y-4">
+            <form class="px-5 text-gray-500 mb-2 text-sm space-y-4">
                 <div class="border-b">
                     <p class="my-1 p-2 px-5">پۆلەکان</p>
-                        @foreach ($category as $row)
-                            <p>
-                                @if(request('category'))
-                                <input onchange="submitForm()" {{in_array($row->id, request('category'))?'checked':''}} type="checkbox" name="category[]" value="{{ $row->id }}" class="accent-green-500 text-white">
-                                @else
-                                <input onchange="submitForm()" type="checkbox" name="category[]" value="{{ $row->id }}" class="accent-green-500 text-white">
-                                @endif
-                                <span>{{$row->name}}</span>
-                            </p>
-                        @endforeach
+                    <p class="mt-2 space-x-3 rtl:space-x-reverse" v-for="(item, index) in category" :key="index">
+                        <input type="checkbox" @change="setSelectedData(item.id)" class="accent-green-500 text-white">
+                        <span>{{item.name}}</span>
+                    </p>
                 </div>
-                <div class="border-b pb-2">
+                <!-- <div class="border-b pb-2">
                     <p class="my-2 p-2 px-5">مەودای نرخەکان</p>
                     <div class="w-8/12 mx-auto mt-2 flex flex-wrap justify-between">
                         <input value="{{ request('min') ? request('min') : '' }}" name="min" type="text" class="w-4/12 px-2 py-1 text-xs text-center border border-gray-300 rounded-lg focus:outline-none focus:bg-gray-300" placeholder="کەمترین">
                         <input value="{{ request('max') ? request('max') : '' }}" name="max" type="text" class="w-4/12 px-2 py-1 text-xs text-center border border-gray-300 rounded-lg focus:outline-none focus:bg-gray-300" placeholder="بەرزترین">
                         <button class="mt-4 bg-green-600 text-white px-4 py-1  rounded-xl w-full">نرخ دیاری بکە</button>
                     </div>
-                </div>
-            </form> -->
+                </div> -->
+            </form>
             <div class="border-b absolute bottom-0">
                 <div class="bg-green-600 flex items-center justify-center p-4">
                     <div class="basis-1١/12 px-6 text-center py-2 rounded bg-green-500">
@@ -125,3 +119,45 @@
     </div>
     </div>
 </template>
+
+<script>
+export default {
+    data(){
+        return {
+            category:[],
+            
+        }
+    },
+
+    computed:{
+        selectedCategory:{
+            get(){
+                return this.$store.state.post.selectedCategory
+            }
+        }
+    },
+
+    methods: {
+        setSelectedData(value){
+             let index = this.selectedCategory.findIndex((element)=>{
+                return element == value
+             })
+             
+
+             if(index == -1){
+                this.selectedCategory.push(value)
+             }else{
+                this.selectedCategory.splice(index, 1)
+             }
+
+             this.$store.dispatch('post/load')
+        }
+    },
+
+    created(){
+        this.$axios.get('/category').then(({ data })=>{
+            this.category = data.category
+        })
+    }
+}
+</script>
