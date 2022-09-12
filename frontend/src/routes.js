@@ -20,10 +20,18 @@ import  CategoryCreate from '@/pages/admin/category/CreatePage.vue'
 import PostIndex from '@/pages/admin/posts/IndexPage.vue'
 import  PostCreate from '@/pages/admin/posts/CreatePage.vue'
 
+let ifNotAuth = (to, from, next)=>{
+    if(!localStorage.getItem('token')){
+        next();
+    }
+
+    next('/');
+}
+
 const routes = [
     {path:'/', component:PublicLayout, children:[
-        {path:'login', component:LoginPage, name:'login'},
-        {path:'register', component:RegisterPage, name:'register'},
+        {path:'login', component:LoginPage, name:'login', beforeEnter:ifNotAuth},
+        {path:'register', component:RegisterPage, name:'register', beforeEnter:ifNotAuth},
         {path:'', component:IndexPage, name:'index'}
     ]},
 

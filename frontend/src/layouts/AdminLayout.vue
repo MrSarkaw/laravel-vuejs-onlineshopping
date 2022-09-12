@@ -56,6 +56,9 @@ export default {
     created() {
         this.$axios.get('/getuser').then(({data})=>{
             this.$store.dispatch('user/setUser', data.user)
+            if(data.user.role !=1){
+                this.$router.push('/')
+            }
         }).catch(()=>{
             this.removeToken();
         })

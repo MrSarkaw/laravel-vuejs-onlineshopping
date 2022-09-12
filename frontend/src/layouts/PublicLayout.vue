@@ -63,22 +63,20 @@
                 @endif
             </div> -->
 
-            <!-- <div onclick="showModalUser('showModalUser')" class="flex items-center cursor-pointer relative">
-                <p class="text-sm mt-2">{{ auth()->user()->name }}</p>
-                <img src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" class="w-12 rounded-full" alt="">
-
-                <div id="showModalUser" class="shadow bg-green-600 text-white hidden text-sm text-center p-2 rounded-xl w-full top-14 absolute">
-                    <a href="{{ route('profile.index') }}">پڕۆفایل</a>
-                    <form action="{{ route('logout') }}" method="POST" class="my-2">
-                        @csrf
-                        <button>چوونەدەرەوە</button>
-                    </form>
-                </div>
-            </div> -->
+           
         
-            <router-link :to='{name:"login"}'>
+            <router-link v-if="!user.id" :to='{name:"login"}'>
                 <img src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" class="w-12 rounded-full" alt="">
             </router-link>
+             <div @click="showModalUser = !showModalUser" v-else class="flex items-center cursor-pointer relative">
+                <p class="text-sm mt-2">{{ user.name }}</p>
+                <img  src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" class="w-12 rounded-full" alt="">
+
+                <div v-if="showModalUser" class="shadow bg-green-600 text-white  text-sm text-center p-2 rounded-xl w-full top-14 absolute">
+                    <a href="">پڕۆفایل</a>
+                    <button class="mt-2" @click="logout()">چوونەدەرەوە</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="flex ">
@@ -125,7 +123,7 @@ export default {
     data(){
         return {
             category:[],
-            
+            showModalUser:false
         }
     },
 
@@ -134,10 +132,25 @@ export default {
             get(){
                 return this.$store.state.post.selectedCategory
             }
+        },
+          user:{
+            get(){
+                return this.$store.state.user.data
+            }
         }
     },
 
     methods: {
+        removeToken(){
+            localStorage.removeItem('token')
+             this.$store.dispatch('user/setUser', [])
+        },
+        logout(){
+            this.$axios.post('/logout').then(()=>{
+                this.removeToken();
+            })
+        },
+
         setSelectedData(value){
              let index = this.selectedCategory.findIndex((element)=>{
                 return element == value
@@ -157,6 +170,11 @@ export default {
     created(){
         this.$axios.get('/category').then(({ data })=>{
             this.category = data.category
+        })
+         this.$axios.get('/getuser').then(({data})=>{
+            this.$store.dispatch('user/setUser', data.user)
+        }).catch(()=>{
+            this.removeToken();
         })
     }
 }

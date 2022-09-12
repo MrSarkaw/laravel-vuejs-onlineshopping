@@ -44,7 +44,12 @@ export default {
                 localStorage.setItem('token', data.token);  
                 this.$store.dispatch('user/setUser', data.user);
                 this.$axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('token')
+
+                if(data.user.role == 1)
                 this.$router.push('/admin');
+                else
+                this.$router.push('/');
+
            }).catch((error)=>{
             console.log(error)
                 this.errorMsg = error?.response?.data?.msg || null;
